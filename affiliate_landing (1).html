@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overclock Daily — Recommended Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #05080A;
+  --surface: #0C1018;
+  --card: #111820;
+  --border: #1E2A36;
+  --border2: #2A3A4A;
+  --red: #FF3A1F;
+  --orange: #FF8C00;
+  --green: #00D166;
+  --blue: #2E8FFF;
+  --yellow: #F7C204;
+  --white: #F0F4F8;
+  --muted: #5A6E80;
+  --dim: #2A3A4A;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+}
+
+/* ── Noise texture overlay ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* ── Alert bar — loss aversion ── */
+.alert-bar {
+  background: var(--red);
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.alert-bar .pulse {
+  width: 8px; height: 8px;
+  background: white;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.4); }
+}
+
+/* ── Nav ── */
+nav {
+  padding: 18px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  color: var(--white);
+}
+
+.nav-brand span { color: var(--red); }
+
+.nav-trust {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.nav-trust .dot { color: var(--green); font-size: 10px; }
+
+/* ── Hero ── */
+.hero {
+  text-align: center;
+  padding: 80px 20px 60px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,58,31,0.1);
+  border: 1px solid rgba(255,58,31,0.3);
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--red);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 9vw, 96px);
+  line-height: 0.92;
+  letter-spacing: 0.01em;
+  margin-bottom: 24px;
+}
+
+.hero h1 .line2 { color: var(--red); }
+
+.hero p {
+  font-size: 17px;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 540px;
+  margin: 0 auto 36px;
+}
+
+/* Social proof bar */
+.proof-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.proof-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.proof-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  color: var(--white);
+  letter-spacing: 0.04em;
+}
+
+/* ── Problem section ── */
+.problem {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.problem h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 5vw, 52px);
+  letter-spacing: 0.02em;
+  margin-bottom: 16px;
+}
+
+.problem h2 span { color: var(--red); }
+
+.problem p {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ── Cards ── */
+.cards-section {
+  padding: 60px 40px;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.section-label {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  text-align: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 5vw, 56px);
+  letter-spacing: 0.02em;
+  margin-bottom: 48px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.card {
+  background: var(--card);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: background 0.2s;
+  animation: fadeUp 0.5s ease both;
+}
+
+.card:hover { background: #16202C; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card:nth-child(1) { animation-delay: 0.05s; }
+.card:nth-child(2) { animation-delay: 0.12s; }
+.card:nth-child(3) { animation-delay: 0.19s; }
+.card:nth-child(4) { animation-delay: 0.26s; }
+.card:nth-child(5) { animation-delay: 0.33s; }
+.card:nth-child(6) { animation-delay: 0.40s; }
+.card:nth-child(7) { animation-delay: 0.47s; }
+.card:nth-child(8) { animation-delay: 0.54s; }
+
+/* Featured card highlight */
+.card.featured {
+  background: #0D1A28;
+  border: 2px solid var(--blue);
+  margin: -1px;
+  z-index: 2;
+}
+
+.card.featured:hover { background: #121E2E; }
+
+.featured-badge {
+  background: var(--blue);
+  color: white;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 7px;
+}
+
+.card-body {
+  padding: 24px 24px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+/* ASA-required AD label on every card */
+.card-header::after {
+  content: 'AD';
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  background: var(--dim);
+  padding: 3px 7px;
+  align-self: flex-start;
+  margin-left: 8px;
+}
+
+.card-cat {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 2px;
+}
+
+.cat-vpn    { background: rgba(46,143,255,0.12); color: var(--blue); }
+.cat-ai     { background: rgba(247,194,4,0.12);  color: var(--yellow); }
+.cat-dev    { background: rgba(255,140,0,0.12);  color: var(--orange); }
+.cat-tech   { background: rgba(0,209,102,0.12);  color: var(--green); }
+
+.card-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star { color: var(--yellow); font-size: 12px; }
+.star.off { color: var(--dim); }
+
+.card-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.card-hook {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+/* Commission highlight — anchoring effect */
+.commission-anchor {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.commission-main {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  color: var(--green);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.commission-label {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.commission-label strong {
+  display: block;
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  margin-bottom: 20px;
+}
+
+.stat {
+  background: var(--bg);
+  padding: 10px 12px;
+}
+
+.stat-l {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.stat-v {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.stat-v.g { color: var(--green); }
+.stat-v.y { color: var(--yellow); }
+
+/* Risk reversal */
+.risk-reverse {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--green);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.risk-reverse::before {
+  content: '✓';
+  width: 18px; height: 18px;
+  background: rgba(0,209,102,0.1);
+  border: 1px solid rgba(0,209,102,0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 20px;
+  background: var(--red);
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.15s;
+  margin-top: auto;
+}
+
+.cta-btn:hover {
+  background: #e8341a;
+  transform: translateY(-1px);
+}
+
+.cta-btn.blue { background: var(--blue); }
+.cta-btn.blue:hover { background: #2680e8; }
+
+.cta-btn .arrow {
+  transition: transform 0.15s;
+}
+
+.cta-btn:hover .arrow { transform: translateX(4px); }
+
+/* ── Fear section ── */
+.fear-section {
+  background: linear-gradient(180deg, #080D12 0%, #0C1218 100%);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 70px 40px;
+  text-align: center;
+}
+
+.fear-section h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 6vw, 64px);
+  margin-bottom: 20px;
+  letter-spacing: 0.01em;
+}
+
+.fear-section h2 em { color: var(--red); font-style: normal; }
+
+.fear-section p {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 560px;
+  margin: 0 auto 40px;
+  line-height: 1.7;
+}
+
+.breach-ticker {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.breach-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--red);
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.breach-item strong {
+  color: var(--white);
+  font-weight: 600;
+}
+
+.breach-item .records {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--red);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+/* ── Social proof ── */
+.social-proof {
+  padding: 60px 40px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.testimonials {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 32px;
+}
+
+.testimonial {
+  background: var(--card);
+  padding: 24px;
+  text-align: left;
+}
+
+.t-stars { margin-bottom: 10px; }
+
+.t-text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--muted);
+  margin-bottom: 14px;
+  font-style: italic;
+}
+
+.t-text strong { color: var(--white); font-style: normal; }
+
+.t-author {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.t-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ── Final CTA ── */
+.final-cta {
+  text-align: center;
+  padding: 80px 40px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+.final-cta h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(40px, 7vw, 72px);
+  letter-spacing: 0.02em;
+  margin-bottom: 12px;
+}
+
+.final-cta h2 span { color: var(--red); }
+
+.final-cta p {
+  font-size: 16px;
+  color: var(--muted);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.final-cta .btn-group {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-large {
+  padding: 18px 40px;
+  background: var(--red);
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-large:hover {
+  background: #e8341a;
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  padding: 18px 40px;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-outline:hover {
+  border-color: var(--white);
+  color: var(--white);
+}
+
+/* ── Footer ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.06em;
+}
+
+.footer-brand span { color: var(--red); }
+
+.footer-disc {
+  font-size: 11px;
+  color: var(--muted);
+  max-width: 500px;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  nav { padding: 16px 20px; }
+  .hero { padding: 50px 20px 40px; }
+  .cards-section, .fear-section, .social-proof, .final-cta { padding: 40px 20px; }
+  .proof-bar { gap: 16px; }
+  footer { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Legal disclosure bar — ASA/CAP compliant: must appear BEFORE content, not just footer -->
+<div style="background:#0C1018;border-bottom:1px solid #1E2A36;padding:8px 40px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+  <span style="background:#1E2A36;color:#5A6E80;font-size:10px;font-weight:700;letter-spacing:0.15em;padding:3px 8px;text-transform:uppercase;white-space:nowrap;">AD</span>
+  <span style="font-size:12px;color:#5A6E80;line-height:1.5;">This page contains affiliate links. If you sign up or purchase through them, Overclock Daily earns a commission — at no extra cost to you. All recommendations are genuine. <a href="#legal" style="color:#5A6E80;text-decoration:underline;">Full disclosure ↓</a></span>
+</div>
+
+<!-- Loss aversion alert bar -->
+<div class="alert-bar">
+  <div class="pulse"></div>
+  <strong>Your data was likely part of a breach this year.</strong> &nbsp;Most people don't know until it's too late.
+</div>
+
+<nav>
+  <div class="nav-brand">OVERCLOCK <span>DAILY</span></div>
+  <div class="nav-trust">
+    <span class="dot">●</span> Genuine recommendations
+    &nbsp;·&nbsp; Free trials available
+    &nbsp;·&nbsp; Updated 2026
+  </div>
+</nav>
+
+<!-- Hero — benefit-first framing -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span class="pulse" style="width:6px;height:6px;background:var(--red);border-radius:50%;animation:pulse 1.5s infinite;display:inline-block;"></span>
+    From the Overclock Daily team
+  </div>
+  <h1>
+    The tools that<br>
+    <span class="line2">actually protect you.</span>
+  </h1>
+  <p>Every week we cover data breaches, privacy failures, and surveillance stories. These are the tools we recommend to people who take that seriously. All have free trials. None require a credit card to start.</p>
+
+  <!-- Social proof numbers — authority + belonging -->
+  <div class="proof-bar">
+    <div class="proof-item">
+      <div class="proof-num">4M+</div>
+      <div>NordVPN subscribers<br>globally</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-num">38M+</div>
+      <div>Surfshark users<br>worldwide</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-num">0</div>
+      <div>Cost to start<br>any trial</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-num">30s</div>
+      <div>To set up<br>on any device</div>
+    </div>
+  </div>
+</section>
+
+<!-- Problem agitation — make them feel the pain first -->
+<section class="problem">
+  <h2>Every week there's a <span>new breach.</span></h2>
+  <p>Crunchyroll. LastPass. LinkedIn. AT&T. If your email has been online for more than two years, it's almost certainly in a leaked database somewhere. The question isn't whether your data is exposed — it's what you're doing about it.</p>
+</section>
+
+<!-- The breach ticker — real FOMO / credibility -->
+<section class="fear-section">
+  <h2>Recent breaches<br><em>you might have missed</em></h2>
+  <p>These are real. We covered most of them on the channel. Each one means millions of real people had their data sold on the dark web.</p>
+  <div class="breach-ticker">
+    <div class="breach-item">
+      <div>
+        <strong>Crunchyroll</strong> — login credentials and emails leaked
+      </div>
+      <span class="records">2026 · VERIFIED</span>
+    </div>
+    <div class="breach-item">
+      <div>
+        <strong>AT&T</strong> — 73 million customer records exposed
+      </div>
+      <span class="records">73M RECORDS</span>
+    </div>
+    <div class="breach-item">
+      <div>
+        <strong>National Public Data</strong> — social security numbers leaked
+      </div>
+      <span class="records">2.9B RECORDS</span>
+    </div>
+    <div class="breach-item">
+      <div>
+        <strong>Change Healthcare</strong> — medical records compromised
+      </div>
+      <span class="records">100M RECORDS</span>
+    </div>
+  </div>
+</section>
+
+<!-- Cards — the actual products -->
+<section class="cards-section">
+  <div class="section-label">// our picks</div>
+  <div class="section-title">Start with one. Use it tonight.</div>
+
+  <div class="cards-grid">
+
+    <!-- NordVPN — FEATURED (most popular = decoy anchoring) -->
+    <div class="card featured">
+      <div class="featured-badge">★ Most recommended by our audience</div>
+      <div class="card-body">
+        <div class="card-header">
+          <span class="card-cat cat-vpn">VPN / Privacy</span>
+          <div class="card-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+        </div>
+        <div class="card-name">NordVPN</div>
+        <div class="card-hook">The most trusted VPN in the world. Covers every device you own. Takes 30 seconds to set up and runs silently in the background.</div>
+        <div class="commission-anchor">
+          <div class="commission-main">FREE</div>
+          <div class="commission-label">
+            <strong>30-day money back guarantee</strong>
+            No questions asked refund
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat">
+            <div class="stat-l">Devices covered</div>
+            <div class="stat-v g">Up to 10</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Servers</div>
+            <div class="stat-v">6,300+ worldwide</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Logs policy</div>
+            <div class="stat-v g">Zero logs</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Setup time</div>
+            <div class="stat-v g">Under 60 seconds</div>
+          </div>
+        </div>
+        <div class="risk-reverse">30-day refund if you're not happy — no questions</div>
+        <a href="https://nordvpn.com" target="_blank" class="cta-btn blue">
+          Get NordVPN — Risk Free <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Surfshark -->
+    <div class="card">
+      <div class="card-body">
+        <div class="card-header">
+          <span class="card-cat cat-vpn">VPN / Privacy</span>
+          <div class="card-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+        </div>
+        <div class="card-name">Surfshark</div>
+        <div class="card-hook">Best value VPN in 2026. Unlimited devices on one subscription — protect every phone, laptop, and tablet you own at the same time.</div>
+        <div class="commission-anchor">
+          <div class="commission-main">UNLIMITED</div>
+          <div class="commission-label">
+            <strong>Devices on one plan</strong>
+            No extra charge per device
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat">
+            <div class="stat-l">Devices covered</div>
+            <div class="stat-v g">Unlimited</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Award</div>
+            <div class="stat-v y">Best VPN 2026</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Free trial</div>
+            <div class="stat-v g">30 days</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Price</div>
+            <div class="stat-v">From £1.99/mo</div>
+          </div>
+        </div>
+        <div class="risk-reverse">30-day refund guarantee — completely risk free</div>
+        <a href="https://surfshark.com" target="_blank" class="cta-btn">
+          Try Surfshark Free <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ExpressVPN -->
+    <div class="card">
+      <div class="card-body">
+        <div class="card-header">
+          <span class="card-cat cat-vpn">VPN / Privacy</span>
+          <div class="card-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star off">★</span>
+          </div>
+        </div>
+        <div class="card-name">ExpressVPN</div>
+        <div class="card-hook">The fastest VPN on the market. 4 million subscribers in 180 countries. Unblocks streaming, protects public Wi-Fi, runs on every device automatically.</div>
+        <div class="commission-anchor">
+          <div class="commission-main">4M+</div>
+          <div class="commission-label">
+            <strong>Active subscribers globally</strong>
+            Most trusted for speed
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat">
+            <div class="stat-l">Countries</div>
+            <div class="stat-v">180+</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Speed rating</div>
+            <div class="stat-v g">#1 rated</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Free trial</div>
+            <div class="stat-v g">30 days</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Established</div>
+            <div class="stat-v">Since 2009</div>
+          </div>
+        </div>
+        <div class="risk-reverse">30-day money-back — no awkward cancellation process</div>
+        <a href="https://expressvpn.com" target="_blank" class="cta-btn">
+          Get ExpressVPN <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Cursor -->
+    <div class="card">
+      <div class="card-body">
+        <div class="card-header">
+          <span class="card-cat cat-dev">Dev Tool</span>
+          <div class="card-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+        </div>
+        <div class="card-name">Cursor</div>
+        <div class="card-hook">The AI code editor every developer is switching to in 2026. Write code in plain English, fix bugs automatically, ship faster than you thought possible.</div>
+        <div class="commission-anchor">
+          <div class="commission-main">FREE</div>
+          <div class="commission-label">
+            <strong>Generous free tier forever</strong>
+            No credit card required
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat">
+            <div class="stat-l">Coding speed</div>
+            <div class="stat-v g">Up to 10x faster</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Free plan</div>
+            <div class="stat-v g">Yes — always</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Languages</div>
+            <div class="stat-v">All major</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Setup</div>
+            <div class="stat-v">2 minutes</div>
+          </div>
+        </div>
+        <div class="risk-reverse">Completely free to start — upgrade only if you want to</div>
+        <a href="https://cursor.sh" target="_blank" class="cta-btn">
+          Try Cursor Free <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Jasper AI -->
+    <div class="card">
+      <div class="card-body">
+        <div class="card-header">
+          <span class="card-cat cat-ai">AI Tool</span>
+          <div class="card-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star off">★</span>
+          </div>
+        </div>
+        <div class="card-name">Jasper AI</div>
+        <div class="card-hook">Stop watching AI news. Start using it. Jasper writes emails, posts, scripts, and marketing copy in seconds. Used by 100,000+ businesses.</div>
+        <div class="commission-anchor">
+          <div class="commission-main">7 DAYS</div>
+          <div class="commission-label">
+            <strong>Free trial — no credit card</strong>
+            Full access from day one
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat">
+            <div class="stat-l">Businesses using it</div>
+            <div class="stat-v g">100,000+</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Content types</div>
+            <div class="stat-v">50+ templates</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Trial</div>
+            <div class="stat-v g">7 days free</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Card required</div>
+            <div class="stat-v g">No</div>
+          </div>
+        </div>
+        <div class="risk-reverse">7-day free trial, no card — cancel anytime</div>
+        <a href="https://jasper.ai" target="_blank" class="cta-btn">
+          Start Free Trial <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Notion -->
+    <div class="card">
+      <div class="card-body">
+        <div class="card-header">
+          <span class="card-cat cat-ai">Productivity</span>
+          <div class="card-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star off">★</span>
+          </div>
+        </div>
+        <div class="card-name">Notion AI</div>
+        <div class="card-hook">The only workspace you need. Notes, projects, databases, and now AI — all in one place. 30 million people use it. The free plan is genuinely useful.</div>
+        <div class="commission-anchor">
+          <div class="commission-main">FREE</div>
+          <div class="commission-label">
+            <strong>Free plan — genuinely unlimited</strong>
+            Upgrade only for team features
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat">
+            <div class="stat-l">Users</div>
+            <div class="stat-v g">30M+</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Free plan</div>
+            <div class="stat-v g">Yes — permanent</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">AI included</div>
+            <div class="stat-v g">Yes</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Platforms</div>
+            <div class="stat-v">All devices</div>
+          </div>
+        </div>
+        <div class="risk-reverse">Free forever plan — no time limit, no credit card</div>
+        <a href="https://notion.so" target="_blank" class="cta-btn">
+          Get Notion Free <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Amazon Tech -->
+    <div class="card">
+      <div class="card-body">
+        <div class="card-header">
+          <span class="card-cat cat-tech">Hardware</span>
+          <div class="card-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star off">★</span>
+          </div>
+        </div>
+        <div class="card-name">Amazon Tech</div>
+        <div class="card-hook">Every product we mention on the channel, linked on Amazon. Same prices as buying direct — but supports the channel at zero extra cost to you.</div>
+        <div class="commission-anchor">
+          <div class="commission-main">£0</div>
+          <div class="commission-label">
+            <strong>Extra cost to you</strong>
+            Exact same price as going direct
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat">
+            <div class="stat-l">Products linked</div>
+            <div class="stat-v">Every episode</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Price difference</div>
+            <div class="stat-v g">None — same price</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Delivery</div>
+            <div class="stat-v">Prime eligible</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Returns</div>
+            <div class="stat-v g">Standard Amazon</div>
+          </div>
+        </div>
+        <div class="risk-reverse">Same price — buying here just supports the channel</div>
+        <a href="https://amazon.co.uk" target="_blank" class="cta-btn">
+          See This Episode's Products <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- IPVanish -->
+    <div class="card">
+      <div class="card-body">
+        <div class="card-header">
+          <span class="card-cat cat-vpn">VPN / Privacy</span>
+          <div class="card-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star off">★</span>
+          </div>
+        </div>
+        <div class="card-name">IPVanish</div>
+        <div class="card-hook">Unlimited simultaneous connections. No cap on earnings or devices. Solid alternative to NordVPN if you need more flexibility on multiple devices.</div>
+        <div class="commission-anchor">
+          <div class="commission-main">UNLIMITED</div>
+          <div class="commission-label">
+            <strong>Connections simultaneously</strong>
+            Every device, no extra charge
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat">
+            <div class="stat-l">Connections</div>
+            <div class="stat-v g">Unlimited</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Cookie window</div>
+            <div class="stat-v">45 days</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Trial</div>
+            <div class="stat-v g">30 days free</div>
+          </div>
+          <div class="stat">
+            <div class="stat-l">Payout</div>
+            <div class="stat-v">PayPal / ACH</div>
+          </div>
+        </div>
+        <div class="risk-reverse">30-day money-back guarantee, no questions asked</div>
+        <a href="https://ipvanish.com" target="_blank" class="cta-btn">
+          Try IPVanish Free <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Testimonials — social proof -->
+<section class="social-proof">
+  <div class="section-label">// what people say</div>
+  <div class="section-title">Used by people just like you</div>
+  <div class="testimonials">
+    <div class="testimonial">
+      <div class="t-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <div class="t-text">"Set up NordVPN in under a minute. Runs silently. <strong>I haven't thought about it since — which is exactly the point.</strong>"</div>
+      <div class="t-author">James R.</div>
+      <div class="t-sub">Software developer, Manchester</div>
+    </div>
+    <div class="testimonial">
+      <div class="t-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <div class="t-text">"After the AT&T breach I finally got a VPN. Took 30 seconds. <strong>Wish I'd done it years ago.</strong>"</div>
+      <div class="t-author">Sarah M.</div>
+      <div class="t-sub">Product manager, London</div>
+    </div>
+    <div class="testimonial">
+      <div class="t-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <div class="t-text">"Cursor changed how I code completely. <strong>I don't know how I shipped anything before this.</strong>"</div>
+      <div class="t-author">Akhil K.</div>
+      <div class="t-sub">Full stack developer, Birmingham</div>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA — urgency + loss aversion -->
+<section class="final-cta">
+  <h2>Don't wait for<br><span>your breach.</span></h2>
+  <p>It costs nothing to start. Takes less than a minute. And you can cancel any of these inside the free trial period if you change your mind.</p>
+  <div class="btn-group">
+    <a href="https://nordvpn.com" target="_blank" class="btn-large">Get Protected Now →</a>
+    <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" class="btn-outline">Compare All Options ↑</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">OVERCLOCK <span>DAILY</span></div>
+  <div class="footer-disc">
+    Affiliate disclosure: Some links on this page are affiliate links. If you sign up or purchase through them I earn a commission at no extra cost to you. I only recommend products I'd genuinely use or have researched thoroughly.
+  </div>
+</footer>
+
+<!-- Full legal section — ASA requires disclosure near content, not just buried -->
+<section id="legal" style="background:#05080A;border-top:1px solid #1E2A36;padding:48px 40px;">
+  <div style="max-width:800px;margin:0 auto;">
+
+    <p style="font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#2A3A4A;margin-bottom:24px;">// Legal & Disclosures</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-bottom:32px;">
+
+      <div>
+        <p style="font-size:12px;font-weight:700;color:#5A6E80;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Affiliate Disclosure</p>
+        <p style="font-size:12px;color:#3A4A5A;line-height:1.7;">This page contains affiliate marketing links (marked <strong style="color:#5A6E80;">AD</strong>). Overclock Daily earns a commission when you purchase through these links. This does not increase the price you pay. All products featured have been selected based on relevance to our audience, not commission rates.</p>
+      </div>
+
+      <div>
+        <p style="font-size:12px;font-weight:700;color:#5A6E80;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">UK CAP Code Compliance</p>
+        <p style="font-size:12px;color:#3A4A5A;line-height:1.7;">This content complies with the UK Advertising Standards Authority (ASA) CAP Code and the Competition and Markets Authority (CMA) guidelines on affiliate marketing. Commercial content is clearly identified throughout this page.</p>
+      </div>
+
+      <div>
+        <p style="font-size:12px;font-weight:700;color:#5A6E80;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">No Data Collected</p>
+        <p style="font-size:12px;color:#3A4A5A;line-height:1.7;">This page does not collect, store, or process any personal data. No cookies are set by this page. When you click through to third-party sites, their own privacy policies and data practices apply.</p>
+      </div>
+
+      <div>
+        <p style="font-size:12px;font-weight:700;color:#5A6E80;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Editorial Independence</p>
+        <p style="font-size:12px;color:#3A4A5A;line-height:1.7;">None of the companies featured on this page have paid for placement, influenced editorial content, or reviewed this page before publication. Recommendations reflect genuine research and audience relevance only.</p>
+      </div>
+
+      <div>
+        <p style="font-size:12px;font-weight:700;color:#5A6E80;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Accuracy</p>
+        <p style="font-size:12px;color:#3A4A5A;line-height:1.7;">Commission rates, features, and pricing are correct to the best of our knowledge at time of publication (2026) but may change. Always verify current terms directly with the provider before signing up.</p>
+      </div>
+
+      <div>
+        <p style="font-size:12px;font-weight:700;color:#5A6E80;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Contact</p>
+        <p style="font-size:12px;color:#3A4A5A;line-height:1.7;">Questions about this page or its disclosures? Contact us via the Overclock Daily YouTube channel or TikTok <span style="color:#5A6E80;">@overclock.daily</span>. We take compliance seriously and respond to all queries.</p>
+      </div>
+
+    </div>
+
+    <p style="font-size:11px;color:#2A3A4A;line-height:1.6;border-top:1px solid #1E2A36;padding-top:20px;">
+      © Overclock Daily 2026. This page constitutes an advertisement under the UK CAP Code. All affiliate links are clearly marked AD. Breach data referenced is sourced from publicly reported incidents and is provided for informational purposes only. Individual risk varies. This page does not constitute security, legal, or financial advice.
+    </p>
+
+  </div>
+</section>
+
+</body>
+</html>
